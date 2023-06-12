@@ -1,11 +1,15 @@
 const parseEnv = (prefix) => {
-  Object.entries(process.env).forEach(([key, value]) => {
-    if (!key.startsWith(prefix)) {
-      return;
-    }
+  const env = Object.entries(process.env)
+    .map(([key, value]) => {
+      if (!key.startsWith(prefix)) {
+        return;
+      }
 
-    console.log(`${key}=${value};`);
-  });
+      return `${key}=${value};`;
+    })
+    .filter(Boolean);
+
+  console.log(...env);
 };
 
 parseEnv("RSS_");
