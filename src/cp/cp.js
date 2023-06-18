@@ -5,9 +5,13 @@ import childProcess from "child_process";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const spawnChildProcess = async (path, args) => {
-  const process = childProcess.fork(path, args, {
-    silent: false,
+  const child = childProcess.fork(path, args, {
+    stdio: ["pipe", "pipe", "ipc"],
   });
+
+  process.stdin.pipe(child.stdin);
+
+  child.stdout.pipe(process.stdout);
 };
 
-spawnChildProcess(path.join(__dirname, "files", "script.js"), ["arg"]);
+spawnChildProcess(path.join(__dirname, "files", "script.js"), ["arg", "afesf"]);
